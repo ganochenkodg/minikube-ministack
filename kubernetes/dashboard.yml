@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-upstream
+  namespace: kubernetes-dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 4g
+    nginx.ingress.kubernetes.io/server-snippet: |
+      access_log /var/log/nginx/dashboard.access.log;
+      error_log /var/log/nginx/dashboard.error.log;
+      gzip on;
+      gzip_disable "msie6";
+      gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+spec:
+  rules:
+  - host: dashboard.minikube
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 9090

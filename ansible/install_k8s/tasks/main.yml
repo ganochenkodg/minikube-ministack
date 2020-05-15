@@ -1,0 +1,36 @@
+---
+- name: Disable swap and resize disk
+  shell: "swapoff -a && sed -i '/swap/d' /etc/fstab && parted /dev/sda rm 2 && growpart /dev/sda 1 && resize2fs /dev/sda1"
+  args:
+    removes: /dev/sda2
+
+- name: Add Apt signing key from official docker repo
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add docker official repository for ubuntu
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: Install docker-ce
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - docker-ce
+
+- name: Ensure kubectl is installed and available
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: 'a+x'
+
+- name: Install latest minikube
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /usr/local/bin/minikube
+    mode: 'a+x'
