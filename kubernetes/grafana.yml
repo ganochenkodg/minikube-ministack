@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grafana-upstream
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+      access_log /var/log/nginx/grafana.access.log;
+      error_log /var/log/nginx/grafana.error.log;
+      gzip on;
+      gzip_disable "msie6";
+      gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+spec:
+  rules:
+  - host: grafana.minikube
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: monitoring-grafana
+          servicePort: 3000

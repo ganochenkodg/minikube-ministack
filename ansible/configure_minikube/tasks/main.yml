@@ -7,7 +7,24 @@
   shell: minikube addons enable ingress
 
 - name: Start minikube dashboard
-  shell: minikube addons enable dashboard && minikube dashboard & sleep 10s
+  shell: minikube addons enable dashboard && minikube dashboard &
 
-- name: Configure upstream for dashboard
-  shell: kubectl apply -f /vagrant/kubernetes/dashboard.yml
+- name: Download helm installer
+  get_url:
+    url: https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get
+    dest: /tmp/get_helm.sh
+    mode: 'a+x'
+
+- name: Install helm
+  shell: /tmp/get_helm.sh && helm init --wait
+
+- name: Install prometheus operator
+  shell: kubectl apply -f /vagrant/kubernetes/monitoring-namespace.yml && \
+    helm upgrade --install monitoring stable/prometheus-operator --namespace=monitoring 
+
+- name: Start minikube dashboard
+  shell: minikube addons enable dashboard && minikube dashboard &
+
+- name: Configure upstreams 
+  shell: kubectl apply -f /vagrant/kubernetes/dashboard.yml && \
+    kubectl apply -f /vagrant/kubernetes/grafana.yml
