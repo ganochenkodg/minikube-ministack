@@ -21,6 +21,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
+        - containerPort: 9991
         readinessProbe:
           httpGet:
             port: 3000
@@ -51,6 +52,13 @@ spec:
     app: dev-app
   ports:
     - port: 3000
+      protocol: TCP
+      targetPort: 3000
+      name: main-upstream
+    - port: 9991
+      protocol: TCP
+      targetPort: 9991
+      name: metrics-upstream
 
 ---
 
@@ -60,6 +68,7 @@ metadata:
   name: dev-app-upstream
   namespace: dev
   annotations:
+    nginx.ingress.kubernetes.io/app-root: /hello
     nginx.ingress.kubernetes.io/proxy-body-size: 4g
     nginx.ingress.kubernetes.io/server-snippet: |
       access_log /var/log/nginx/dev-app.access.log;

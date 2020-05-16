@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "minikube" do |c|
     c.vm.hostname = "minikube"
     c.vm.network "private_network", ip: "10.168.10.10"
-    c.hostmanager.aliases = %w(dev.minikube prod.minikube dashboard.minikube)
+    c.hostmanager.aliases = %w(dev.minikube prod.minikube dashboard.minikube grafana.minikube)
     c.disksize.size = '50GB'
     c.vm.provision "ansible", playbook: "ansible/full.yml", run: "always"
     c.vm.provider "virtualbox" do |vb|
