@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: dev-app
-        image: myapp:staging
+        image: localhost:5000/myapp:staging
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
