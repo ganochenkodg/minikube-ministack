@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staging-app
-  namespace: dev
+  name: prod-app
+  namespace: prod
   labels:
-    app: dev-app
+    app: prod-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: dev-app
+      app: prod-app
   template:
     metadata:
       labels:
-        app: dev-app
+        app: prod-app
     spec:
       containers:
-      - name: dev-app
-        image: localhost:5000/myapp:staging
+      - name: prod-app
+        image: localhost:5000/myapp:master
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -37,18 +37,18 @@ spec:
           failureThreshold: 3
         env:
         - name: ENVIRONMENT
-          value: "dev"
+          value: "prod"
 
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name: dev-app-upstream
-  namespace: dev
+  name: prod-app-upstream
+  namespace: prod
 spec:
   selector:
-    app: dev-app
+    app: prod-app
   ports:
     - port: 3000
 
@@ -57,22 +57,22 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: dev-app-upstream
-  namespace: dev
+  name: prod-app-upstream
+  namespace: prod
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 4g
     nginx.ingress.kubernetes.io/server-snippet: |
-      access_log /var/log/nginx/dev-app.access.log;
-      error_log /var/log/nginx/dev-app.error.log;
+      access_log /var/log/nginx/prod-app.access.log;
+      error_log /var/log/nginx/prod-app.error.log;
       gzip on;
       gzip_disable "msie6";
       gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
 spec:
   rules:
-  - host: dev.minikube
+  - host: prod.minikube
     http:
       paths:
       - path: /
         backend:
-          serviceName: dev-app-upstream
+          serviceName: prod-app-upstream
           servicePort: 3000

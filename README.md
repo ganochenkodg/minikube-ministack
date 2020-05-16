@@ -10,6 +10,6 @@ Simple dev stack with single-node k8s.
 Tasklist:
 - [x] Run minikube
 - [x] Run dashboard and ingress.
-- [ ] Write first app
+- [x] Write first app
 - [ ] Create CI/CD for deploy it to dev/prod environments.
 - [ ] Get metrics and visualize it in grafana.

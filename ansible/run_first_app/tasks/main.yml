@@ -10,3 +10,6 @@
   
 - name: Run dev app
   shell: kubectl apply -f /vagrant/kubernetes/dev-app.yml
+
+- name: Run prod app
+  shell: kubectl apply -f /vagrant/kubernetes/prod-app.yml
