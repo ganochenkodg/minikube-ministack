@@ -4,10 +4,11 @@
 ### description
 Simple dev stack with single-node k8s. Used tools:
 [Vagrant](https://www.vagrantup.com/) - a tool that lets you create and configure lightweight, reproducible, and portable development environments in different hypervisors.
+[Virtualbox](https://www.virtualbox.org/) - a free and open-source hosted hypervisor for x86 virtualization, developed by Oracle Corporation. 
 [Minikube](https://kubernetes.io/ru/docs/tutorials/hello-minikube/) - a tool that lets you use a Kubernetes cluster locally. It lets you create a single node cluster inside a VM on your laptop.
 
 ### usage
-1. [Install Vagrant](https://www.vagrantup.com/docs/installation/)  
+1. [Install Vagrant](https://www.vagrantup.com/docs/installation/) and [Virtualbox](https://www.virtualbox.org/wiki/VBoxInstallAndRun).
 2. Clone this repository and run `cd minikube-ministack && vagrant up`. During the launch process, you will be required to enter the root password. After that kubernetes cluster will be raised up using Ansible, and simple nodejs app will be deployed in [dev](Http://dev.minikube) and [prod](http://prod.minikube) environments.
 ![](https://github.com/ganochenkodg/minikube-ministack/blob/master/screens/vagrant.png)
 3. You can check the status of the cluster and control the Kubernetes through the [dashboard](minikube.dashboard).
