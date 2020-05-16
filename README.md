@@ -18,8 +18,8 @@ Simple dev stack with single-node k8s. Used tools:
 ![](https://github.com/ganochenkodg/minikube-ministack/blob/master/screens/jenkins.png)
 
 Tasklist:
-- [x] Run minikube
+- [x] Run minikube.
 - [x] Run dashboard and ingress.
-- [x] Write first app
+- [x] Write first app.
 - [x] Create CI/CD for deploy it to dev/prod environments.
 - [x] Get metrics and visualize it in grafana.
