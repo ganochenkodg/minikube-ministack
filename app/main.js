@@ -6,7 +6,7 @@ app.use(cors());
 app.use('/', router);
 
 router.get('/', async (req, res) => {
-  res.send('Hello TR Logic!');
+  res.send('Hello World from '+process.env.HOSTNAME+'!');
 })
 
 app.listen(3000, function() {
