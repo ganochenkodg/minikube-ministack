@@ -1,0 +1,41 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name:  dev-app
+  namespace: monitoring
+  labels:
+    app: dev-app
+    chart: prometheus-operator-8.13.8
+    heritage: Tiller
+    release: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - "dev"
+  selector:
+    matchLabels:
+      k8s-app: "dev-app"
+  endpoints:
+  - port: metrics
+
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name:  prod-app
+  namespace: monitoring
+  labels:
+    app: prod-app
+    chart: prometheus-operator-8.13.8
+    heritage: Tiller
+    release: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - "prod"
+  selector:
+    matchLabels:
+      k8s-app: "prod-app"
+  endpoints:
+  - port: metrics

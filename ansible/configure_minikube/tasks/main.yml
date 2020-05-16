@@ -23,7 +23,8 @@
 
 - name: Install prometheus operator
   shell: kubectl apply -f /vagrant/kubernetes/monitoring-namespace.yml && \
-    helm upgrade --install monitoring stable/prometheus-operator --namespace=monitoring 
+    kubectl apply -f /vagrant/kubernetes/mydashboard.yml && \
+    helm upgrade --install monitoring stable/prometheus-operator --namespace=monitoring --version v8.13.8
 
 - name: Start minikube dashboard
   shell: minikube addons enable dashboard && minikube dashboard &

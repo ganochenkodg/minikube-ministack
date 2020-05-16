@@ -13,3 +13,6 @@
 
 - name: Run prod app
   shell: kubectl apply -f /vagrant/kubernetes/prod-app.yml
+
+- name: Configure prometheus discovery
+  shell: kubectl apply -f /vagrant/kubernetes/discover.yml

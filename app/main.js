@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var cors = require('cors');
-app.use(require("api-express-exporter")());
+const option = {
+  host: '0.0.0.0',
+};
+app.use(require("api-express-exporter")(option));
 app.use(cors());
 app.use('/', router);
 const bgcolor = "#" + Math.random().toString(16).slice(2, 8);
