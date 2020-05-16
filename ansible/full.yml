@@ -5,4 +5,5 @@
     - apt_common
     - install_k8s
     - configure_minikube
+    - install_jenkins
     - run_first_app

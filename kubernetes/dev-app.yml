@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staging-app
+  name: dev-app
   namespace: dev
   labels:
     app: dev-app

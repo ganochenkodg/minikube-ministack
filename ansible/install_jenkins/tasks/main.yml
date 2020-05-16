@@ -1,0 +1,19 @@
+---
+- name: Ansible replace string example
+  replace:
+    path: /root/.kube/config
+    regexp: 'localhost'
+    replace: '10.0.2.15'
+
+- name: Allow jenkins to admin k8s
+  shell: kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins:services
+  ignore_errors: yes
+  
+- name: Add jenkins volume
+  shell: kubectl apply -f /vagrant/kubernetes/jenkins-pvc.yml
+  
+- name: Install jenkins
+  shell: helm upgrade -i -f /vagrant/kubernetes/jenkins-values.yml --namespace services jenkins stable/jenkins
+
+- name: Configure jenkins ingress
+  shell: kubectl apply -f /vagrant/kubernetes/jenkins.yml
