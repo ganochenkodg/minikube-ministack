@@ -4,9 +4,10 @@ var app = express();
 var cors = require('cors');
 app.use(cors());
 app.use('/', router);
+const bgcolor = "#" + Math.random().toString(16).slice(2, 8);
 
 router.get('/', async (req, res) => {
-  res.send('Hello World from '+process.env.HOSTNAME+'!');
+  res.send('<body bgcolor="'+bgcolor+'">Hello World from '+process.env.HOSTNAME+'! Env:'+process.env.ENVIRONMENT+'</body>');
 })
 
 app.listen(3000, function() {

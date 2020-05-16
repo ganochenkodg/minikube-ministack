@@ -9,6 +9,9 @@
 - name: Start minikube dashboard
   shell: minikube addons enable dashboard && minikube dashboard &
 
+- name: Enable local registry
+  shell: minikube addons enable registry
+
 - name: Download helm installer
   get_url:
     url: https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get

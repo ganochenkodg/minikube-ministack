@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-app
+  namespace: dev
+  labels:
+    app: dev-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dev-app
+  template:
+    metadata:
+      labels:
+        app: dev-app
+    spec:
+      containers:
+      - name: dev-app
+        image: myapp:staging
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            port: 3000
+            path: /
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            port: 3000
+            path: /
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          failureThreshold: 3
+        env:
+        - name: ENVIRONMENT
+          value: "dev"
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: dev-app-upstream
+  namespace: dev
+spec:
+  selector:
+    app: dev-app
+  ports:
+    - port: 3000
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dev-app-upstream
+  namespace: dev
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 4g
+    nginx.ingress.kubernetes.io/server-snippet: |
+      access_log /var/log/nginx/dev-app.access.log;
+      error_log /var/log/nginx/dev-app.error.log;
+      gzip on;
+      gzip_disable "msie6";
+      gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+spec:
+  rules:
+  - host: dev.minikube
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dev-app-upstream
+          servicePort: 3000

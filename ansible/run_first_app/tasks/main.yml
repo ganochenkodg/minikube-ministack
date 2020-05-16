@@ -1,0 +1,12 @@
+---
+- name: Build first version of app
+  shell: docker build -t localhost:5000/myapp:master -t localhost:5000/myapp:staging /vagrant/app
+
+- name: And push it
+  shell: docker push localhost:5000/myapp
+
+- name: Add dev and prod namespaces
+  shell: kubectl apply -f /vagrant/kubernetes/dev-prod-namespace.yml
+  
+- name: Run dev app
+  shell: kubectl apply -f /vagrant/kubernetes/dev-app.yml

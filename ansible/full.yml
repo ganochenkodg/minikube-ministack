@@ -5,3 +5,4 @@
     - apt_common
     - install_k8s
     - configure_minikube
+    - run_first_app
